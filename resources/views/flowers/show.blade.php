@@ -1,35 +1,42 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Bunga</title>
+    <title>Detail Flower</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #fff5f7; font-family: 'Poppins', sans-serif; }
-        .navbar-brand { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #c2185b !important; }
-        .card { border: none; border-radius: 20px; box-shadow: 0 4px 20px rgba(194,24,91,0.1); }
-        .flower-banner { background: linear-gradient(135deg, #f8bbd0, #f48fb1); border-radius: 20px 20px 0 0; padding: 50px; text-align: center; font-size: 6rem; }
-        .page-title { font-family: 'Playfair Display', serif; color: #880e4f; font-size: 2rem; }
-        .badge-jenis { background-color: #f8bbd0; color: #880e4f; font-weight: 500; border-radius: 20px; padding: 6px 16px; font-size: 0.9rem; }
-        .info-label { color: #ad1457; font-weight: 600; }
-        .harga-besar { color: #c2185b; font-size: 1.8rem; font-weight: 700; }
-        .btn-edit { background: linear-gradient(135deg, #ff9800, #f57c00); border: none; border-radius: 25px; color: white; padding: 10px 25px; }
-        .btn-edit:hover { background: linear-gradient(135deg, #f57c00, #e65100); color: white; }
-        .btn-hapus { background: linear-gradient(135deg, #e53935, #b71c1c); border: none; border-radius: 25px; color: white; padding: 10px 25px; }
-        .btn-hapus:hover { background: linear-gradient(135deg, #b71c1c, #7f0000); color: white; }
-        .btn-kembali { border: 2px solid #e91e63; color: #e91e63; border-radius: 25px; padding: 10px 25px; }
-        .btn-kembali:hover { background: #e91e63; color: white; }
-        .deskripsi-box { background: #fff0f5; border-left: 4px solid #e91e63; border-radius: 0 12px 12px 0; padding: 20px; font-style: italic; color: #555; line-height: 1.8; }
+        body { background: #f7f3ee; font-family: 'DM Sans', sans-serif; }
+        .topbar { background: #2c2c2c; padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .topbar-brand { font-family: 'DM Serif Display', serif; color: #f7f3ee; font-size: 1.6rem; letter-spacing: 2px; }
+        .topbar-brand span { color: #c9a96e; }
+        .btn-back { border: 1.5px solid #f7f3ee; color: #f7f3ee; padding: 9px 22px; border-radius: 4px; font-size: 0.85rem; background: transparent; }
+        .btn-back:hover { background: #f7f3ee; color: #2c2c2c; }
+        .flower-banner { background: #f0ebe3; border-radius: 8px 8px 0 0; padding: 60px; text-align: center; font-size: 7rem; border-bottom: 1px solid #e8e0d5; }
+        .card { border: 1px solid #e8e0d5; border-radius: 8px; overflow: hidden; }
+        .page-title { font-family: 'DM Serif Display', serif; color: #2c2c2c; font-size: 2rem; }
+        .tag { display: inline-block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: #888; border: 1px solid #ddd; padding: 3px 10px; border-radius: 3px; }
+        .category-tag { display: inline-block; font-size: 0.78rem; background: #f0ebe3; color: #7a5c2e; border-radius: 4px; padding: 4px 12px; font-weight: 500; }
+        .desc-box { background: #f7f3ee; border-left: 3px solid #c9a96e; padding: 20px; border-radius: 0 6px 6px 0; font-size: 0.92rem; color: #555; line-height: 1.9; }
+        .price-big { font-family: 'DM Serif Display', serif; font-size: 2rem; color: #2c2c2c; }
+        .info-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #c9a96e; font-weight: 500; }
+        .btn-edit { background: #c9a96e; color: #2c2c2c; border: none; padding: 10px 25px; border-radius: 4px; font-size: 0.88rem; }
+        .btn-edit:hover { background: #b8955a; color: #2c2c2c; }
+        .btn-del { background: transparent; border: 1.5px solid #e05c5c; color: #e05c5c; padding: 10px 25px; border-radius: 4px; font-size: 0.88rem; }
+        .btn-del:hover { background: #e05c5c; color: white; }
+        .category-info { background: #f0ebe3; border-radius: 6px; padding: 16px 20px; margin-bottom: 24px; }
+        .category-info p { margin: 0; font-size: 0.85rem; color: #7a5c2e; }
+        footer { background: #2c2c2c; color: #666; text-align: center; padding: 25px; font-size: 0.82rem; letter-spacing: 1px; margin-top: 60px; }
+        footer span { color: #c9a96e; }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-light bg-white shadow-sm px-4">
-    <span class="navbar-brand">🌸 Toko Bunga</span>
-    <a href="{{ route('flowers.index') }}" class="btn btn-kembali">← Kembali</a>
-</nav>
+<div class="topbar">
+    <div class="topbar-brand">FLORI<span>STA</span></div>
+    <a href="{{ route('flowers.index') }}" class="btn btn-back">← Back to Collection</a>
+</div>
 
 <div class="container my-5">
     <div class="row justify-content-center">
@@ -46,32 +53,42 @@
                     @else 🌺
                     @endif
                 </div>
-                <div class="card-body p-4">
+                <div class="p-4">
                     <div class="d-flex justify-content-between align-items-start mb-3">
-                        <h2 class="page-title">{{ $flower->nama }}</h2>
-                        <span class="badge-jenis">{{ $flower->jenis }}</span>
+                        <h2 class="page-title mb-0">{{ $flower->nama }}</h2>
+                        <span class="tag">{{ $flower->jenis }}</span>
                     </div>
 
-                    <div class="mb-4">
-                        <p class="deskripsi-box">{{ $flower->deskripsi }}</p>
+                    @if($flower->category)
+                    <div class="category-info">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <span style="font-size:1.2rem">{{ $flower->category->icon }}</span>
+                            <span class="category-tag">{{ $flower->category->name }}</span>
+                        </div>
+                        <p>{{ $flower->category->description }}</p>
+                    </div>
+                    @endif
+
+                    <div class="desc-box mb-4">
+                        {{ $flower->deskripsi }}
                     </div>
 
                     <div class="row mb-4">
                         <div class="col-6">
-                            <p class="info-label mb-1">💰 Harga</p>
-                            <p class="harga-besar">Rp {{ number_format($flower->harga, 0, ',', '.') }}</p>
+                            <div class="info-label mb-1">Price</div>
+                            <div class="price-big">Rp {{ number_format($flower->harga, 0, ',', '.') }}</div>
                         </div>
                         <div class="col-6">
-                            <p class="info-label mb-1">📦 Stok Tersedia</p>
-                            <p class="harga-besar">{{ $flower->stok }} <small style="font-size:1rem">pcs</small></p>
+                            <div class="info-label mb-1">Stock Available</div>
+                            <div class="price-big">{{ $flower->stok }} <small style="font-size:1rem; color:#888;">pcs</small></div>
                         </div>
                     </div>
 
-                    <div class="d-flex gap-3 justify-content-center">
+                    <div class="d-flex gap-3">
                         <a href="{{ route('flowers.edit', $flower->id) }}" class="btn btn-edit">✏️ Edit</a>
-                        <form action="{{ route('flowers.destroy', $flower->id) }}" method="POST" onsubmit="return confirm('Yakin hapus bunga ini?')">
+                        <form action="{{ route('flowers.destroy', $flower->id) }}" method="POST" onsubmit="return confirm('Delete this flower?')">
                             @csrf @method('DELETE')
-                            <button class="btn btn-hapus">🗑️ Hapus</button>
+                            <button class="btn btn-del">🗑️ Delete</button>
                         </form>
                     </div>
                 </div>
@@ -80,8 +97,8 @@
     </div>
 </div>
 
-<footer class="text-center py-4 mt-4" style="background:#f8bbd0; color:#880e4f;">
-    <p class="mb-0">🌸 Toko Bunga &copy; 2026 — Keindahan di Setiap Kelopak</p>
+<footer>
+    <span>FLORISTA</span> copy; 2026
 </footer>
 
 </body>

@@ -1,65 +1,72 @@
-<<<<<<< HEAD
-# 🌸 Florista — Toko Bunga
+# Florista - Toko Bunga
 
 ## Deskripsi Proyek
-Florista adalah aplikasi berbasis web yang dibuat menggunakan framework Laravel dengan menerapkan konsep MVC (Model-View-Controller). Aplikasi ini membantu pengguna dalam mengelola katalog toko bunga secara lebih terstruktur. Pengguna dapat menambahkan koleksi bunga, melihat deskripsi dan makna dari setiap bunga. 
+Florista merupakan aplikasi web yang dibangun di atas framework Laravel dengan pendekatan arsitektur MVC (Model-View-Controller) serta memanfaatkan Eloquent ORM dalam pengelolaan data. Aplikasi ini ditujukan untuk membantu pengelolaan katalog toko bunga, mulai dari pencatatan koleksi bunga, informasi harga dan stok, hingga deskripsi makna di balik setiap bunga. Seluruh operasi data — menambah, melihat, mengubah, dan menghapus — dapat dilakukan langsung melalui antarmuka aplikasi.
 
-## Konsep MVC yang Diterapkan
+---
 
-Project ini menerapkan konsep MVC (Model-View-Controller) pada framework Laravel.
+## Penerapan Konsep MVC
 
 ### 1. Model
-Model digunakan untuk menghubungkan aplikasi dengan database serta mengelola data aplikasi.
+Bagian Model bertugas sebagai penghubung antara aplikasi dan database. Pada project ini, interaksi dengan database sepenuhnya dilakukan melalui Eloquent ORM bawaan Laravel.
 
-**Model yang digunakan:**
-- `Flower.php`
+**Model yang dibuat:**
+- `Flower.php` — menangani data bunga dan memiliki relasi belongsTo ke Category
+- `Category.php` — menangani data kategori dan memiliki relasi hasMany ke Flower
 
-**Fungsi:**
-- Mengambil data bunga dari database
-- Menyimpan data bunga baru
-- Memperbarui data bunga yang ada
-- Menghapus data bunga
+**Method Eloquent yang dipakai:**
+- `create()` — untuk menyimpan data baru
+- `find()` — untuk mengambil satu data berdasarkan ID
+- `where()` — untuk memfilter data berdasarkan kondisi tertentu
+- `update()` — untuk mengubah data yang sudah ada
+- `delete()` — untuk menghapus data
+- `with()` — untuk mengambil data beserta relasinya sekaligus (eager loading)
 
 ### 2. View
-View digunakan untuk menampilkan antarmuka aplikasi kepada pengguna.
+Bagian View menangani tampilan yang dilihat oleh pengguna. Semua tampilan dibuat menggunakan Blade, template engine bawaan Laravel.
 
-**View yang digunakan:**
+**File View yang dibuat:**
 - `flowers/index.blade.php`
 - `flowers/show.blade.php`
 - `flowers/create.blade.php`
 - `flowers/edit.blade.php`
 
-**Fungsi:**
-- Menampilkan katalog koleksi bunga
-- Menampilkan detail bunga beserta makna dan deskripsinya
-- Menampilkan form untuk menambah bunga baru
-- Menampilkan form untuk mengedit data bunga
+**Fungsi masing-masing:**
+- index — menampilkan seluruh koleksi bunga lengkap dengan filter per kategori
+- show — menampilkan detail satu bunga beserta makna dan informasi kategorinya
+- create — menampilkan form penambahan bunga baru
+- edit — menampilkan form untuk mengubah data bunga
 
 ### 3. Controller
-Controller digunakan untuk mengatur logika aplikasi dan penghubung antara Model dan View.
+Bagian Controller berfungsi sebagai perantara antara Model dan View, sekaligus tempat logika aplikasi dijalankan.
 
-**Controller yang digunakan:**
+**Controller yang dibuat:**
 - `FlowerController.php`
 
-**Fungsi:**
-- Menampilkan semua bunga (index)
-- Menampilkan detail bunga (show)
-- Menampilkan form tambah bunga (create)
-- Menyimpan bunga baru ke database (store)
-- Menampilkan form edit bunga (edit)
-- Memperbarui data bunga (update)
-- Menghapus bunga dari database (destroy)
+**Fungsi tiap method:**
+- `index()` — mengambil semua data bunga beserta kategorinya lalu dikirim ke view
+- `show()` — mengambil satu data bunga berdasarkan ID
+- `create()` — menampilkan form tambah bunga
+- `store()` — memproses dan menyimpan data bunga baru ke database
+- `edit()` — menampilkan form edit dengan data bunga yang dipilih
+- `update()` — memproses perubahan data bunga
+- `destroy()` — menghapus data bunga dari database
+- `byCategory()` — memfilter dan menampilkan bunga berdasarkan kategori tertentu
+
+---
 
 ## Struktur Direktori
+
 ```
-Toko-bunga/
+toko-bunga/
 ├── app/
 │    ├── Http/
 │    │    └── Controllers/
 │    │         └── FlowerController.php
 │    │
 │    └── Models/
-│         └── Flower.php
+│         ├── Flower.php
+│         └── Category.php
 │
 ├── resources/
 │    └── views/
@@ -75,47 +82,57 @@ Toko-bunga/
 └── database/
      ├── migrations/
      └── seeders/
-          └── FlowerSeeder.php
+          ├── FlowerSeeder.php
+          └── CategorySeeder.php
 ```
 
+---
+
 ## Skema Database
+
+### Tabel: `categories`
+
+| Field | Type | Keterangan |
+|-------|------|------------|
+| id | bigint | Primary key |
+| name | varchar | Nama kategori |
+| icon | varchar | Ikon emoji kategori |
+| description | text | Keterangan singkat kategori |
+| created_at | timestamp | Waktu data dibuat |
+| updated_at | timestamp | Waktu data diperbarui |
 
 ### Tabel: `flowers`
 
 | Field | Type | Keterangan |
 |-------|------|------------|
 | id | bigint | Primary key |
+| category_id | bigint | Foreign key ke tabel categories |
 | nama | varchar | Nama bunga |
-| jenis | varchar | Jenis/varietas bunga |
+| jenis | varchar | Jenis atau varietas bunga |
 | harga | integer | Harga dalam Rupiah |
-| stok | integer | Jumlah stok |
+| stok | integer | Jumlah stok tersedia |
 | deskripsi | text | Deskripsi dan makna bunga |
-| created_at | timestamp | Tanggal dibuat |
-| updated_at | timestamp | Tanggal diperbarui |
+| created_at | timestamp | Waktu data dibuat |
+| updated_at | timestamp | Waktu data diperbarui |
 
-## Fitur Aplikasi
+---
 
-### Katalog Bunga
-Pengguna dapat:
-- Melihat semua koleksi bunga
-- Melihat statistik bunga (total koleksi, stok, varietas)
+## Fitur yang Tersedia
 
-### Detail Bunga
-Pengguna dapat:
-- Melihat deskripsi lengkap dan makna bunga
-- Melihat informasi harga dan stok
+- Menampilkan seluruh koleksi bunga beserta statistik jumlah koleksi, stok, dan varietas
+- Menyaring tampilan bunga berdasarkan kategori
+- Melihat detail bunga lengkap dengan makna dan informasi kategori
+- Menambahkan bunga baru ke katalog
+- Mengubah data bunga yang sudah ada
+- Menghapus bunga dari katalog
 
-### Operasi CRUD
-Pengguna dapat:
-- ➕ Menambah bunga baru
-- ✏️ Mengedit informasi bunga
-- 🗑️ Menghapus bunga dari katalog
+---
 
 ## Cara Menjalankan Proyek
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/yourusername/toko-bunga.git
+git clone https://github.com/niniaseza/Tugas-PBW-MVC.git
 ```
 
 ### 2. Masuk ke Folder Project
@@ -128,7 +145,7 @@ cd toko-bunga
 composer install
 ```
 
-### 4. Copy File Environment
+### 4. Salin File Environment
 ```bash
 cp .env.example .env
 ```
@@ -138,13 +155,15 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-### 6. Atur Database di File `.env`
+### 6. Sesuaikan Konfigurasi Database di `.env`
+```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=toko_bunga
 DB_USERNAME=root
 DB_PASSWORD=
+```
 
 ### 7. Jalankan Migration
 ```bash
@@ -154,6 +173,7 @@ php artisan migrate
 ### 8. Jalankan Seeder
 ```bash
 php artisan db:seed --class=FlowerSeeder
+php artisan db:seed --class=CategorySeeder
 ```
 
 ### 9. Jalankan Server
@@ -161,53 +181,28 @@ php artisan db:seed --class=FlowerSeeder
 php artisan serve
 ```
 
-### 10. Buka Browser
+### 10. Buka di Browser
+```
 http://127.0.0.1:8000
+```
 
-## Alur Kerja Aplikasi
-1. User membuka aplikasi
-↓
-2. FlowerController@index mengambil semua data bunga dari database
-↓
-3. Data dikirim ke flowers/index.blade.php (View)
-↓
-4. User klik "View Detail"
-↓
-5. FlowerController@show mengambil data bunga berdasarkan ID
-↓
-6. Data ditampilkan di flowers/show.blade.php
-↓
-7. User dapat Tambah / Edit / Hapus data bunga
+---
 
-## Routes
+## Daftar Routes
 
-| Method | Route | Fungsi |
-|--------|-------|--------|
-| GET | / | Redirect ke katalog bunga |
+| Method | Route | Keterangan |
+|--------|-------|------------|
+| GET | / | Halaman utama, redirect ke katalog |
 | GET | /flowers | Menampilkan semua bunga |
 | GET | /flowers/create | Form tambah bunga |
-| POST | /flowers | Simpan bunga baru |
-| GET | /flowers/{id} | Detail bunga |
+| POST | /flowers | Proses simpan bunga baru |
+| GET | /flowers/{id} | Halaman detail bunga |
 | GET | /flowers/{id}/edit | Form edit bunga |
-| PUT | /flowers/{id} | Update data bunga |
+| PUT | /flowers/{id} | Proses update data bunga |
 | DELETE | /flowers/{id} | Hapus bunga |
+| GET | /category/{id} | Tampilkan bunga berdasarkan kategori |
 
-## Data Sample
-
-| Nama | Jenis | Harga | Stok |
-|------|-------|-------|------|
-| Red Rose | Rose | Rp 25.000 | 50 |
-| Pink Rose | Rose | Rp 20.000 | 40 |
-| White Rose | Rose | Rp 22.000 | 35 |
-| White Jasmine | Jasmine | Rp 15.000 | 60 |
-| Purple Orchid | Orchid | Rp 75.000 | 20 |
-| White Orchid | Orchid | Rp 80.000 | 15 |
-| Yellow Tulip | Tulip | Rp 45.000 | 30 |
-| Purple Tulip | Tulip | Rp 48.000 | 25 |
-| White Lily | Lily | Rp 35.000 | 25 |
-| Stargazer Lily | Lily | Rp 55.000 | 18 |
-| Sunflower | Sunflower | Rp 30.000 | 45 |
-| Lavender | Lavender | Rp 40.000 | 35 |
+---
 
 ## Teknologi yang Digunakan
 
@@ -218,7 +213,5 @@ http://127.0.0.1:8000
 - Composer
 - Bootstrap 5
 - Blade Template Engine
+- Eloquent ORM
 - Arsitektur MVC
-=======
-# Tugas-PBW-MVC
->>>>>>> f1ec4c902a0d8616b2eb6cd312d1fac50d3fc7eb
